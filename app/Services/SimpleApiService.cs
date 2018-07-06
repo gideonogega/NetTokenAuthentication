@@ -10,7 +10,7 @@ namespace app.Services
 {
     public interface IApiService
     {
-        Task<IList<string>> GetValues();
+        Task<IList<string>> GetValues(string token = null);
     }
 
     public class SimpleApiService : IApiService
@@ -22,10 +22,10 @@ namespace app.Services
             this.tokenService = tokenService;
         }
 
-        public async Task<IList<string>> GetValues()
+        public async Task<IList<string>> GetValues(string inputToken = null)
         {
             List<string> values = new List<string>();
-            var token = await tokenService.GetTokenAsync();
+            var token = inputToken ?? (await tokenService.GetTokenAsync());
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var res = await client.GetAsync("http://localhost:51482/api/values");
             var json = await res.Content.ReadAsStringAsync();

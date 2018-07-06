@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -13,9 +14,10 @@ namespace api.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2", "value3" };
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            return new string[] { "value1", "value2", "value3", accessToken };
         }
 
         // GET api/values/5

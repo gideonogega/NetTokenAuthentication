@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using app.Models;
 using app.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace app.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IApiService apiService;
@@ -19,7 +22,8 @@ namespace app.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var values = await apiService.GetValues();
+            var accessToken = await HttpContext.GetTokenAsync("Cookies", "access_token");
+            var values = await apiService.GetValues(accessToken);
             return View(values);
         }
 
