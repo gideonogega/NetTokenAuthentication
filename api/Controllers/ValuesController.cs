@@ -16,8 +16,8 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IEnumerable<string>> Get()
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            return new string[] { "value1", "value2", "value3", accessToken };
+            var groups = HttpContext.User.Claims.Select(c => $"{c.Type} : {c.Value}").ToList();
+            return groups;
         }
 
         // GET api/values/5

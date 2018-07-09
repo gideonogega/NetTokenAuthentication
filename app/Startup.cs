@@ -36,7 +36,10 @@ namespace app
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddCookie()
+            .AddCookie(options => {
+                options.ExpireTimeSpan = TimeSpan.FromSeconds(60);
+                options.Cookie.Expiration = TimeSpan.FromSeconds(60);
+            })
             .AddOpenIdConnect(options => {
                 options.Authority = "https://dev-360787.oktapreview.com/oauth2/default";
                 options.SignInScheme = "Cookies";
