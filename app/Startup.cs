@@ -38,7 +38,11 @@ namespace app
             })
             .AddCookie(options => {
                 options.ExpireTimeSpan = TimeSpan.FromSeconds(60);
+                options.Cookie.Name = "AuthenticationCookie";
                 options.Cookie.Expiration = TimeSpan.FromSeconds(60);
+                options.Cookie.MaxAge = TimeSpan.FromSeconds(60);
+
+                //options.Validate();
             })
             .AddOpenIdConnect(options => {
                 options.Authority = "https://dev-360787.oktapreview.com/oauth2/default";
@@ -48,6 +52,11 @@ namespace app
                 options.ClientSecret = "TaXLIYMgfzl9pgxsevrn34ozUqBRtRV6wpIm91Vb";
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
+                options.UseTokenLifetime = true;
+                options.MetadataAddress = "https://dev-360787.oktapreview.com/oauth2/default/.well-known/oauth-authorization-server";
+                //options.Configuration.
+
+                //options.Validate();
             });
         }
 
